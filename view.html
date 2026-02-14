@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+        }
+        
+        #websiteFrame {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="websiteFrame" src="about:blank"></iframe>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const siteName = urlParams.get('site');
+
+        // Load website when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!siteName) {
+                document.body.innerHTML = '<div style="color: white; text-align: center; padding: 50px; font-family: Arial;">No website specified</div>';
+                return;
+            }
+            
+            loadWebsite(siteName);
+        });
+
+        // Load website function
+        async function loadWebsite(siteName) {
+            try {
+                // Get all files for this site from localStorage
+                const siteFiles = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith(`site_${siteName}_`)) {
+                        const fileName = key.replace(`site_${siteName}_`, '');
+                        siteFiles.push({
+                            name: fileName,
+                            content: localStorage.getItem(key)
+                        });
+                    }
+                }
+
+                if (siteFiles.length === 0) {
+                    document.body.innerHTML = '<div style="color: white; text-align: center; padding: 50px; font-family: Arial;">Website not found</div>';
+                    return;
+                }
+
+                // Find main HTML file (index.html or first HTML file)
+                let mainHtmlFile = siteFiles.find(file => file.name.toLowerCase() === 'index.html');
+                if (!mainHtmlFile) {
+                    mainHtmlFile = siteFiles.find(file => file.name.toLowerCase().endsWith('.html'));
+                }
+
+                if (!mainHtmlFile) {
+                    document.body.innerHTML = '<div style="color: white; text-align: center; padding: 50px; font-family: Arial;">No HTML file found</div>';
+                    return;
+                }
+
+                // Create blob URL for the main HTML file
+                const htmlBlob = new Blob([mainHtmlFile.content], { type: 'text/html' });
+                const htmlUrl = URL.createObjectURL(htmlBlob);
+
+                // Load the website in iframe
+                const websiteFrame = document.getElementById('websiteFrame');
+                websiteFrame.onload = function() {
+                    // Inject CSS and JS files
+                    injectAdditionalFiles(siteFiles, mainHtmlFile.name);
+                };
+
+                websiteFrame.src = htmlUrl;
+
+            } catch (error) {
+                console.error("Error loading website:", error);
+                document.body.innerHTML = '<div style="color: white; text-align: center; padding: 50px; font-family: Arial;">Error loading website</div>';
+            }
+        }
+
+        // Inject CSS and JS files into the iframe
+        function injectAdditionalFiles(files, mainFile) {
+            const iframeDoc = websiteFrame.contentDocument || websiteFrame.contentWindow.document;
+            
+            files.forEach(file => {
+                if (file.name !== mainFile) {
+                    if (file.name.toLowerCase().endsWith('.css')) {
+                        const link = iframeDoc.createElement('link');
+                        link.rel = 'stylesheet';
+                        link.href = URL.createObjectURL(new Blob([file.content], { type: 'text/css' }));
+                        iframeDoc.head.appendChild(link);
+                    } else if (file.name.toLowerCase().endsWith('.js')) {
+                        const script = iframeDoc.createElement('script');
+                        script.src = URL.createObjectURL(new Blob([file.content], { type: 'application/javascript' }));
+                        iframeDoc.body.appendChild(script);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
