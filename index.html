@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER WEB HOSTING</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Base & Global Styles (All Neon Blue/Black Theme) --- */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #001a1a, #000);
+            font-size: 0.95em;
+        }
+        
+        /* 🔥 Top Title - NEON BLUE */
+        .tools-top-title {
+            font-size: 1.7em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-align: center;
+            color: #00FFFF;
+            text-shadow: 0 0 10px #00FFFF, 0 0 25px #00FFFF, 0 0 45px #00FFFF;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* --- Main Container (The central box - NEON BLUE THEME) --- */
+        .main-container {
+            width: 90%;
+            max-width: 380px;
+            padding: 25px 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00FFFF; /* Consistent NEON BLUE Border */
+            box-shadow: 0 0 20px #00FFFF;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif; 
+        }
+
+        /* --- Input/Form Section --- */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00FFFF; /* NEON BLUE Label */
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            width: calc(100% - 16px);
+            padding: 10px 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #00FFFF;
+            color: #fff;
+            font-size: 1em;
+            border-radius: 5px;
+            box-shadow: inset 0 0 8px #00FFFF;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Custom File Upload Box Styling */
+        .file-upload-box {
+            border: 2px dashed #00FFFF;
+            border-radius: 8px;
+            padding: 25px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.6);
+            margin-top: 5px;
+        }
+
+        .file-upload-icon {
+            color: #00FFFF;
+            font-size: 2em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .file-upload-text {
+            color: #fff;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* File names display area */
+        #uploadedFilesList {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #00FFFF; /* Changed to Blue for consistency with the new success box theme */
+            font-family: monospace;
+            text-align: center;
+            line-height: 1.4;
+            max-height: 80px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+
+        /* Action Button (Create Website) */
+        .action-button {
+            width: 100%;
+            padding: 12px;
+            cursor: pointer;
+            background: transparent;
+            border: 2px solid #00FFFF;
+            color: #00FFFF;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            box-shadow: 0 0 12px #00FFFF;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin-top: 15px;
+            margin-bottom: 15px; 
+        }
+
+        .action-button:hover {
+            background: #00FFFF;
+            color: #000;
+            box-shadow: 0 0 25px #00FFFF, 0 0 40px #00FFFF;
+        }
+
+        #message {
+            margin-top: -5px; 
+            margin-bottom: 10px;
+            font-size: 0.85em;
+            min-height: 20px;
+            letter-spacing: 1px;
+            color: #FF00FF; /* Pink Neon for Errors */
+        }
+
+        /* --- Success Result Box (NOW MATCHES MAIN CONTAINER BLUE THEME) --- */
+        #downloadResult {
+            padding: 15px;
+            border: 2px solid #00FFFF; /* MATCHES MAIN CONTAINER BORDER (BLUE) */
+            background: rgba(0, 0, 0, 0.9); /* MATCHES MAIN CONTAINER BACKGROUND */
+            display: none;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 0.95em;
+            box-shadow: 0 0 20px #00FFFF; /* MATCHES MAIN CONTAINER SHADOW (BLUE) */
+            margin-bottom: 10px; 
+        }
+
+        /* Success text NOW MATCHES THEME (BLUE) */
+        #downloadResult h3 {
+            margin: 0 0 15px 0;
+            color: #00FFFF; /* BRIGHT NEON BLUE Text */
+            font-size: 1.1em;
+        }
+        
+        /* Domain text remains consistent */
+        .result-domain-text {
+            color: #fff;
+            word-break: break-all;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: block;
+            font-family: monospace;
+            font-size: 1.05em;
+        }
+
+        .download-link {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            background: transparent;
+            /* Changed Download Link color to Blue to match new box theme */
+            border: 2px solid #00FFFF; 
+            color: #00FFFF;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #00FFFF;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .download-link:hover {
+            background: #00FFFF;
+            color: #000;
+            box-shadow: 0 0 25px #00FFFF;
+        }
+
+        /* --- Footer Section --- */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #00FFFF;
+            text-shadow: 0 0 8px #00FFFF;
+        }
+
+        .whatsapp-btn {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: #00FFFF;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: 1px solid #00FFFF;
+            box-shadow: 0 0 12px #00FFFF;
+            font-family: 'Orbitron', sans-serif;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .whatsapp-btn:hover {
+            background: #00FFFF;
+            color: #000;
+            box-shadow: 0 0 25px #00FFFF;
+        }
+
+        /* 🔹 FIXED: Official WhatsApp Icon Styling */
+        .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            filter: drop-shadow(0 0 5px #00FFFF);
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover svg {
+            fill: #000;
+            filter: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="tools-top-title">CYBER WEB HOSTING</h1>
+
+    <div class="main-container">
+        
+        <div id="formSection" class="form-section">
+            
+            <div class="input-group">
+                <label for="sitename">Enter Your Website Name:</label>
+                <input type="text" id="sitename" placeholder="example: my-awesom-site">
+            </div>
+
+            <div class="input-group">
+                <label>Upload Your Files</label>
+                <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
+                    <span class="file-upload-icon">
+                        &#x2338;
+                    </span>
+                    <p class="file-upload-text">Click to upload or drag and drop<br>files</p>
+                    
+                    <div id="uploadedFilesList"></div> 
+
+                    <input type="file" id="fileInput" accept=".html,.css,.js" multiple>
+                </div>
+            </div>
+            
+            <button class="action-button" onclick="createWebsite()">Create Website</button>
+
+            <p id="message"></p>
+        </div>
+
+        <div id="downloadResult">
+            <h3>✅ Your Website Created!</h3>
+            <p style="color:#00FFFF; font-size:0.9em;">Your Website Domain</p>
+            <span class="result-domain-text" id="websiteLinkText"></span>
+            <a href="#" id="websiteLink" class="download-link" target="_blank">View Your Website Now</a>
+        </div>
+        
+    </div>
+
+    <footer>
+        <p>copy;2025 CYBER TEAMS | All Rights Reserved.</p>
+        <a href="https://wa.me/+584263779102?text=*CYBER TEAMS i'm from your Tools website*" class="whatsapp-btn" target="_blank">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="vertical-align: middle;">
+                <path d="M12.038 2.007C6.541 2.007 2.035 6.478 2.035 12.003c0 1.948.558 3.86 1.637 5.53l-1.074 3.931 4.013-1.042c1.616.88 3.407 1.349 5.237 1.349 5.497 0 9.998-4.471 9.998-10.005C22.038 6.478 17.532 2.007 12.038 2.007zm4.787 14.733c-.225.407-.757.513-1.15.267l-1.928-.971c-.347-.174-.755-.174-1.103 0l-1.928.971c-.393.246-.906.139-1.15-.267-.244-.407-.137-.92.269-1.164l1.928-.971c.347-.174.755-.174 1.103 0l1.928.971c.406.244.513.757.269 1.164zM12.038 5.5c3.585 0 6.5 2.915 6.5 6.5s-2.915 6.5-6.5 6.5-6.5-2.915-6.5-6.5 2.915-6.5 6.5-6.5z"/>
+            </svg>
+            Contact on WhatsApp
+        </a>
+    </footer>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadedFilesList = document.getElementById('uploadedFilesList');
+        const resultBox = document.getElementById('downloadResult');
+        const createButton = document.querySelector('.action-button');
+        const linkElement = document.getElementById('websiteLink');
+        const linkTextElement = document.getElementById('websiteLinkText');
+        const messageElement = document.getElementById('message');
+
+        // Event listener to show file names when selected
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files;
+            uploadedFilesList.innerHTML = '';
+            
+            if (files.length > 0) {
+                let listHtml = 'Uploaded Files:<br>';
+                for (let i = 0; i < files.length; i++) {
+                    listHtml += files[i].name + '<br>';
+                }
+                uploadedFilesList.innerHTML = listHtml;
+            }
+            // Clear message/result when files are changed
+            messageElement.textContent = '';
+            resultBox.style.display = 'none';
+        });
+
+
+        async function createWebsite() {
+            // Reset message and hide previous result
+            messageElement.textContent = '';
+            resultBox.style.display = 'none';
+
+            const name = document.getElementById('sitename').value.trim();
+            const files = fileInput.files;
+            
+            // Validation checks
+            if (!name) {
+                messageElement.textContent = "Please enter your website name!";
+                return;
+            }
+            if (files.length === 0) {
+                messageElement.textContent = "Please choose at least one file to upload (.html, .css, or .js)!";
+                return;
+            }
+            if (name.includes(' ') || !/^[a-zA-Z0-9_-]+$/.test(name)) {
+                messageElement.textContent = "Website name can only contain letters, numbers, hyphens (-) and underscores (_), and no spaces.";
+                return;
+            }
+
+            const hasHtmlFile = Array.from(files).some(file => file.name.endsWith('.html'));
+            if (!hasHtmlFile) {
+                messageElement.textContent = "Please include at least one HTML file (e.g., index.html).";
+                return;
+            }
+
+            messageElement.textContent = "Processing and saving files... Please wait.";
+            createButton.disabled = true;
+
+            try {
+                // Process and save all uploaded files
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const fileContent = await file.text();
+                    localStorage.setItem(`site_${name}_${file.name}`, fileContent);
+                }
+                
+                const link = window.location.origin + "/view.html?site=" + encodeURIComponent(name);
+
+                // Update the success box
+                linkTextElement.textContent = link;
+                linkElement.href = link;
+                
+                // --- Display Success ---
+                // 1. Clear processing message
+                messageElement.textContent = ''; 
+                
+                // 2. Show the success box below the button (Correct placement)
+                resultBox.style.display = 'block';
+
+            } catch (error) {
+                console.error("Website creation error:", error);
+                messageElement.textContent = "An error occurred during file processing. Please try again.";
+            } finally {
+                createButton.disabled = false;
+            }
+        }
+    </script>
+</body>
+  </html>
